@@ -1,11 +1,10 @@
 package com.example.registrationandlogin.controller;
 
 import com.example.registrationandlogin.dto.LoginDto;
+import com.example.registrationandlogin.dto.SignUpDto;
 import com.example.registrationandlogin.service.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -20,5 +19,18 @@ public class UserController {
     @PostMapping("/login")
     public String login(@RequestBody LoginDto loginDto) {
         return userService.login(loginDto.getUsername(), loginDto.getPassword());
+    }
+    @GetMapping("/registration")
+    public String registration(@RequestBody SignUpDto signUpDto, Model model){
+        String registrationResult = userService.register(signUpDto);
+
+        if ("Registration successful".equals(registrationResult)) {
+            model.addAttribute("successMessage", registrationResult);
+            return "registration-success";
+        } else {
+            model.addAttribute("errorMessage", registrationResult);
+            return "registration";
+        }
+
     }
 }
