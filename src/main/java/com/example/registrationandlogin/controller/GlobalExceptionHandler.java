@@ -1,5 +1,6 @@
 package com.example.registrationandlogin.controller;
 
+import com.example.registrationandlogin.exception.DuplicateUsernameException;
 import com.example.registrationandlogin.exception.IncorrectPasswordException;
 import com.example.registrationandlogin.exception.NotFoundException;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -31,6 +32,15 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(
                 HttpStatus.FORBIDDEN.value(),
                 HttpStatus.FORBIDDEN.getReasonPhrase(),
+                e.getMessage());
+    }
+
+    @ExceptionHandler(DuplicateUsernameException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    protected @ResponseBody ErrorResponse handleDuplicateUsername(DuplicateUsernameException e) {
+        return new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
                 e.getMessage());
     }
 
