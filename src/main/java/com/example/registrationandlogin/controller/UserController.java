@@ -20,6 +20,7 @@ public class UserController {
     public String login(@RequestBody LoginDto loginDto) {
         return userService.login(loginDto.getUsername(), loginDto.getPassword());
     }
+
     @GetMapping("/registration")
     public String registration(@RequestBody SignUpDto signUpDto, Model model){
         String registrationResult = userService.register(signUpDto);
@@ -31,6 +32,5 @@ public class UserController {
             model.addAttribute("errorMessage", registrationResult);
             return "registration";
         }
-
     }
 }
